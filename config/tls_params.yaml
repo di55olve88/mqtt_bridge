@@ -1,5 +1,18 @@
 tls:
-  ca_certs: /etc/ssl/certs/Root_CA.pem
-  certfile: /etc/ssl/certs/Client.pem
-  keyfile: /etc/ssl/private/Client.key
-  tls_insecure: true
+  ca_certs: /home/nvidia/Downloads/certs/icstx22/Amazon_Root_CA_1.pem
+  certfile: /home/nvidia/Downloads/certs/icstx22/c9faf68aac-certificate.pem.crt
+  keyfile: /home/nvidia//Downloads/certs/icstx22/c9faf68aac-private.pem.key
+  # AWS IoT Core needs TLSv12
+  tls_version: 5
+  tls_insecure: false
+# Connection parameters
+connection:
+  # YOU MUST CHANGE THIS ENDPOINT
+  # Can be found by executing: aws iot describe-endpoint
+  host: a33ymm5qqy1bxl.iot.us-east-2.amazonaws.com
+  port: 8883
+  keepalive: 60
+# MQTT parameters
+client:
+  # User MQTT311
+  protocol: 4
