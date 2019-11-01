@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 from __future__ import absolute_import
 from importlib import import_module
 

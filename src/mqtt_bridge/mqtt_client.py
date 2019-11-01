@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 import ssl
 
 import paho.mqtt.client as mqtt
