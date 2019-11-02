@@ -2,6 +2,7 @@
 #!/usr/bin/env python3
 
 import ssl
+from pdb import set_trace as bp
 
 import paho.mqtt.client as mqtt
 import rospy
