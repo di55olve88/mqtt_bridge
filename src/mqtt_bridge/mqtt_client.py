@@ -2,7 +2,7 @@
 #!/usr/bin/env python3
 
 import ssl
-
+from pdb import set_trace as bp
 import paho.mqtt.client as mqtt
 import rospy
 
@@ -34,6 +34,7 @@ def default_mqtt_client_factory(params):
     ssl_context.load_cert_chain(certfile=cert, keyfile=private)
     ssl_context.load_verify_locations(cafile=ca)
     client.tls_set_context(context=ssl_context)
+    bp()
     client.connect(aws_iot_endpoint, port=portnum)
 
     # configure username and password
