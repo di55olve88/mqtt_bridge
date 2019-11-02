@@ -21,6 +21,7 @@ def default_mqtt_client_factory(params):
     tls_params = params.get('tls', {})
     if tls_params:
         tls_insecure = tls_params.pop('tls_insecure', False)
+        bp()
         client.tls_set(**tls_params)
         client.tls_insecure_set(tls_insecure)
 
