@@ -2,10 +2,9 @@
 #!/usr/bin/env python3
 
 import ssl
-from pdb import set_trace as bp
+
 import paho.mqtt.client as mqtt
 import rospy
-
 
 
 def default_mqtt_client_factory(params):
@@ -14,28 +13,16 @@ def default_mqtt_client_factory(params):
     :param dict param: configuration parameters
     :return mqtt.Client: MQTT Client
     """
-
-    aws_iot_endpoint = "a33ymm5qqy1bxl.iot.us-east-2.amazonaws.com" # <random>.iot.<region>.amazonaws.com
-    url = "https://{}".format(aws_iot_endpoint)
-
-    ca = "/home/nvidia/Downloads/certs/icstx22/Amazon_Root_CA_1.pem" 
-    cert = "/home/nvidia/Downloads/certs/icstx22/c9faf68aac-certificate.pem.crt"
-    private = "/home/nvidia//Downloads/certs/icstx22/c9faf68aac-private.pem.key"
-    portnum = 8893
-
-
     # create client
     client_params = params.get('client', {})
-    client = mqtt.Client()
+    client = mqtt.Client(**client_params)
 
     # configure tls
-    ssl_context = ssl.create_default_context()
-    ssl_context.set_alpn_protocols(["x-amzn-mqtt-ca"])
-    ssl_context.load_cert_chain(certfile=cert, keyfile=private)
-    ssl_context.load_verify_locations(cafile=ca)
-    client.tls_set_context(context=ssl_context)
-    bp()
-    client.connect(aws_iot_endpoint, port=portnum)
+    tls_params = params.get('tls', {})
+    if tls_params:
+        tls_insecure = tls_params.pop('tls_insecure', False)
+        client.tls_set(**tls_params)
+        client.tls_insecure_set(tls_insecure)
 
     # configure username and password
     account_params = params.get('account', {})
