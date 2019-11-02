@@ -8,7 +8,7 @@ from pdb import set_trace as bp
 from six import string_types as basestring
 
 from .bridge import create_bridge
-from .mqtt_client import create_private_path_extractor
+from .mqtt_client import default_mqtt_client_factory
 from .util import lookup_object
 
 
@@ -38,19 +38,19 @@ def mqtt_bridge_node():
     bridge_params = params.get("bridge", [])
 
     # create mqtt client
-    mqtt_client_factory_name = rospy.get_param(
-        "~mqtt_client_factory", ".mqtt_client:default_mqtt_client_factory")
-    mqtt_client_factory = lookup_object(mqtt_client_factory_name)
-    mqtt_client = mqtt_client_factory(mqtt_params)
+    # mqtt_client_factory_name = rospy.get_param(
+    #     "~mqtt_client_factory", ".mqtt_client:default_mqtt_client_factory")
+    # mqtt_client_factory = lookup_object(mqtt_client_factory_name)
+    mqtt_client = default_mqtt_client_factory(mqtt_params)
 
     # load serializer and deserializer
     serializer = params.get('serializer', 'json:dumps')
     deserializer = params.get('deserializer', 'json:loads')
 
     # dependency injection
-    config = create_config(
-        mqtt_client, serializer, deserializer, mqtt_private_path)
-    inject.configure(config)
+    # config = create_config(
+    #     mqtt_client, serializer, deserializer, mqtt_private_path)
+    # inject.configure(config)
 
     # configure and connect to MQTT broker
     mqtt_client.on_connect = _on_connect
