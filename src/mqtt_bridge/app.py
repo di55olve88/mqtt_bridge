@@ -55,8 +55,8 @@ def mqtt_bridge_node():
     # configure and connect to MQTT broker
     mqtt_client.on_connect = _on_connect
     mqtt_client.on_disconnect = _on_disconnect
-    #bp()
-    mqtt_client.connect(**conn_params)
+    aws_iot_endpoint = "a33ymm5qqy1bxl.iot.us-east-2.amazonaws.com" # <random>.iot.<region>.amazonaws.com
+    mqtt_client.connect(aws_iot_endpoint, port=443)
 
     # configure bridges
     bridges = []

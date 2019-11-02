@@ -1,4 +1,4 @@
-mqtt:
+tls:
   ca_certs: /home/nvidia/Downloads/certs/icstx22/Amazon_Root_CA_1.pem
   certfile: /home/nvidia/Downloads/certs/icstx22/c9faf68aac-certificate.pem.crt
   keyfile: /home/nvidia//Downloads/certs/icstx22/c9faf68aac-private.pem.key
