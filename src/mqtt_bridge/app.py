@@ -4,7 +4,7 @@ from __future__ import absolute_import
 import inject
 import paho.mqtt.client as mqtt
 import rospy
-import six.string_types as basestring
+from six import string_types as basestring
 
 from .bridge import create_bridge
 from .mqtt_client import create_private_path_extractor
