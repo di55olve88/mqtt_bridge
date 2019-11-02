@@ -55,7 +55,7 @@ def mqtt_bridge_node():
     # configure and connect to MQTT broker
     mqtt_client.on_connect = _on_connect
     mqtt_client.on_disconnect = _on_disconnect
-    bp()
+    #bp()
     mqtt_client.connect(**conn_params)
 
     # configure bridges
