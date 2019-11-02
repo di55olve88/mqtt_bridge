@@ -2,7 +2,7 @@
   <!-- arg name="use_tls" default="true" -->
   <node name="mqtt_bridge" pkg="mqtt_bridge" type="mqtt_bridge_node.py" output="screen">
     <!-- rosparam command="delete" param="" / -->
-    <rosparam command="load" ns="mqtt" file="$(find mqtt_bridge)/config/tls_params.yaml" />
+    <rosparam command="load" file="$(find mqtt_bridge)/config/tls_params.yaml" />
 
     <rosparam param="mqtt/tls/ca_certs" subst_value="true">/home/nvidia/Downloads/certs/icstx22/Amazon_Root_CA_1.pem</rosparam>
     <rosparam param="mqtt/tls/certfile" subst_value="true">/home/nvidia/Downloads/certs/icstx22/c9faf68aac-certificate.pem.crt</rosparam>

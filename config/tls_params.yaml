@@ -15,9 +15,7 @@ connection:
 # MQTT parameters
 client:
   # User MQTT311
-  protocol: 4
-
-serializer: msgpack:dumps
+  protocol: 4serializer: msgpack:dumps
 deserializer: msgpack:loads
 bridge:
   # ping pong
@@ -47,3 +45,5 @@ bridge:
     msg_type: std_msgs.msg:String
     topic_from: ~/echo
     topic_to: /private/back
+
+
