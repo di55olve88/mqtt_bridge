@@ -10,7 +10,7 @@ connection:
   # YOU MUST CHANGE THIS ENDPOINT
   # Can be found by executing: aws iot describe-endpoint
   host: a33ymm5qqy1bxl.iot.us-east-2.amazonaws.com
-  port: 8883
+  port: 443
   keepalive: 60
 # MQTT parameters
 client:
