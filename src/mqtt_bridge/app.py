@@ -6,10 +6,17 @@ import paho.mqtt.client as mqtt
 import rospy
 from pdb import set_trace as bp
 from six import string_types as basestring
+import ssl
+import paho.mqtt.client as mqtt
+
+
 
 from .bridge import create_bridge
 from .mqtt_client import default_mqtt_client_factory
 from .util import lookup_object
+
+
+
 
 
 def create_config(mqtt_client, serializer, deserializer, mqtt_private_path):
@@ -30,6 +37,15 @@ def mqtt_bridge_node():
     # init node
     rospy.init_node('mqtt_bridge_node')
 
+
+    IoT_protocol_name = "x-amzn-mqtt-ca"
+    aws_iot_endpoint = "a33ymm5qqy1bxl.iot.us-east-2.amazonaws.com" # <random>.iot.<region>.amazonaws.com
+    url = "https://{}".format(aws_iot_endpoint)
+
+    ca = "/home/nvidia/Downloads/certs/icstx22/Amazon_Root_CA_1.pem" 
+    cert = "/home/nvidia/Downloads/certs/icstx22/c9faf68aac-certificate.pem.crt"
+    private = "/home/nvidia//Downloads/certs/icstx22/c9faf68aac-private.pem.key"
+
     # load parameters
     params = rospy.get_param("~", {})
     mqtt_params = params.pop("mqtt", {})
@@ -41,7 +57,10 @@ def mqtt_bridge_node():
     # mqtt_client_factory_name = rospy.get_param(
     #     "~mqtt_client_factory", ".mqtt_client:default_mqtt_client_factory")
     # mqtt_client_factory = lookup_object(mqtt_client_factory_name)
-    mqtt_client = default_mqtt_client_factory(mqtt_params)
+    ssl_context = ssl.create_default_context()
+    ssl_context.set_alpn_protocols([IoT_protocol_name])
+    ssl_context.load_cert_chain(certfile=cert, keyfile=private)
+    ssl_context.load_verify_locations(cafile=ca)
 
     # load serializer and deserializer
     serializer = params.get('serializer', 'json:dumps')
@@ -53,6 +72,8 @@ def mqtt_bridge_node():
     # inject.configure(config)
 
     # configure and connect to MQTT broker
+    mqtt_client = mqtt.Client()
+    mqtt_client.tls_set_context(context=ssl_context)
     mqtt_client.on_connect = _on_connect
     mqtt_client.on_disconnect = _on_disconnect
     aws_iot_endpoint = "a33ymm5qqy1bxl.iot.us-east-2.amazonaws.com" # <random>.iot.<region>.amazonaws.com
