@@ -6,6 +6,19 @@ import ssl
 import paho.mqtt.client as mqtt
 import rospy
 
+def ssl_alpn():
+    try:
+        #debug print opnessl version
+        logger.info("open ssl version:{}".format(ssl.OPENSSL_VERSION))
+        ssl_context = ssl.create_default_context()
+        ssl_context.set_alpn_protocols([IoT_protocol_name])
+        ssl_context.load_cert_chain(certfile=cert, keyfile=private)
+        ssl_context.load_verify_locations(cafile=ca)
+
+        return  ssl_context
+    except Exception as e:
+        print("exception ssl_alpn()")
+        raise e
 
 def default_mqtt_client_factory(params):
     # create client
@@ -16,6 +29,8 @@ def default_mqtt_client_factory(params):
     tls_params = params.get('tls', {})
     if tls_params:
         tls_insecure = tls_params.pop('tls_insecure', False)
+        ssl_context= ssl_alpn()
+        client.tls_set_context(context=ssl_context)
         client.tls_set(**tls_params)
         client.tls_insecure_set(tls_insecure)
 
