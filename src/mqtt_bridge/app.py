@@ -4,6 +4,7 @@ from __future__ import absolute_import
 import inject
 import paho.mqtt.client as mqtt
 import rospy
+from pdb import set_trace as bp
 from six import string_types as basestring
 
 from .bridge import create_bridge
@@ -30,6 +31,7 @@ def mqtt_bridge_node():
     rospy.init_node('mqtt_bridge_node')
 
     # load parameters
+    bp()
     params = rospy.get_param("~", {})
     mqtt_params = params.pop("mqtt", {})
     conn_params = mqtt_params.pop("connection")

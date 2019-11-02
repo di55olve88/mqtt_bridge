@@ -8,11 +8,6 @@ import rospy
 
 
 def default_mqtt_client_factory(params):
-    u""" MQTT Client factory
-
-    :param dict param: configuration parameters
-    :return mqtt.Client: MQTT Client
-    """
     # create client
     client_params = params.get('client', {})
     client = mqtt.Client(**client_params)
